@@ -37,7 +37,7 @@ while($row5=mysqli_fetch_assoc($run5)){
         echo "<br>";
                 echo "den sa rovna ". $den= date('Y-m-d', $datum);echo "<br>";
 
-echo "kod sa rovna ". strtotime($den);echo "<br>";
+//echo "kod sa rovna ". strtotime($den);echo "<br>";
 
 
 
@@ -52,7 +52,7 @@ echo "kod sa rovna ". strtotime($den);echo "<br>";
 
                                                   };
                       $hh=implode(",",$hercikal);
-                        echo "herci v kalendari: ". $hh;echo "<br>";echo "<br>";
+        //                echo "herci v kalendari: ". $hh;echo "<br>";echo "<br>";
                                 // vyberie z druhej tabulky udaje ktore su zapisane ako string
 
                                 $sql7="select * from $myscenes ";

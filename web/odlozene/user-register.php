@@ -84,7 +84,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         session_destroy();
 
 
-       header("Location: user-login.php");
+      header("Location: user-login.php");
       die;
    } else {
 
