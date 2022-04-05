@@ -327,10 +327,9 @@ $p="";
             </section>
             <!-- Data list view end -->
 
-        </div>
-    </div>
- <div class="col">
         <div id='calendar'></div>
+
+        </div>
     </div>
 </div>
 <!-- END: Content-->
