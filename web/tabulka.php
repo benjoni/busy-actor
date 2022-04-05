@@ -3,6 +3,11 @@
 
 ?>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<link href='assets/fullcalendar/lib/main.css' rel='stylesheet' />
+<script src='assets/fullcalendar/lib/main.js'></script>
+
 <!-- BEGIN: Vendor CSS-->
 <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
 <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/file-uploaders/dropzone.min.css">
