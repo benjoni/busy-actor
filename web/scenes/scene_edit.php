@@ -178,7 +178,7 @@ switch ($_SESSION['b3'] ){case "": $b3="hidden";break;default: $b3="";break;}
                                                     $run=mysqli_query($con,$sql);
                                                     ?>
                                                     <label>Cast</label>
-                                                    <select class="form-control" name="cast[]" id="users-language-select2" multiple="multiple">
+                                                    <select class="form-control" name="cast[]" id="users-language-select2" multiple="multiple" value="">
                                                         <?php
                                                         while ($row=mysqli_fetch_assoc($run))
                                                         {

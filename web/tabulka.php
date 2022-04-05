@@ -39,6 +39,136 @@ $myvypocet=$_SESSION['project_id']."vypocet";
 
 <!-- BEGIN: Content-->
 <div class="app-content content">
+
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendar.Draggable;
+
+    var containerEl = document.getElementById('external-events');
+    var calendarEl = document.getElementById('calendar');
+
+    // initialize the external events
+    // -----------------------------------------------------------------
+
+    new Draggable(containerEl, {
+      itemSelector: '.fc-event',
+      eventData: function(eventEl) {
+        if(eventEl.dataset.status == 0){var color = "red";}else if(eventEl.dataset.status == 1){var color = "green";}else if(eventEl.dataset.status == 2){var color = "#3788d8";}else if(eventEl.dataset.status == 3){var color = "orange";};
+        return {
+          title: $("#select_user option:selected").text(),
+          backgroundColor: color
+        };
+      }
+    });
+
+    // initialize the calendar
+    // -----------------------------------------------------------------
+
+    var calendar = new Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,today,next',
+        center: 'title',
+        right: 'dayGridMonth,dayGridWeek,listWeek'
+      },
+      buttonText: {
+        today:    'Dnes',
+        month:    'Mesiac',
+        week:     'Týždeň',
+        list:     'List'
+      },
+      themeSystem: 'bootstrap',
+      locale: 'sk',
+      firstDay: '1',
+      nowIndicator: true,
+      editable: true,
+      droppable: true, // this allows things to be dropped onto the calendar
+      initialDate: "<?php echo $date_init; ?>",
+      drop: function(info) {
+        var status = info.draggedEl.dataset.status;
+
+        if(status == 1){
+          $.ajax({
+              url:"app/ajaxquery.php",
+              method:"POST",
+              data:{
+                  return:'add_event',
+                  user_id:$("#select_user").val(),
+                  date:info.dateStr,
+                  status:info.draggedEl.dataset.status
+              }
+          });
+        }else if(status == 0){
+          $("#modalonlydovod").modal("show");
+          $("#only_user_id").val($("#select_user").val());
+          $("#only_date").val(info.dateStr);
+          $("#only_status").val(info.draggedEl.dataset.status);
+        }else if(status == 2){
+          $("#modaldovodaterminy").modal("show");
+          $("#only_user_id2").val($("#select_user").val());
+          $("#only_date2").val(info.dateStr);
+          $("#only_status2").val(info.draggedEl.dataset.status);
+        }else if(status == 3){
+          $("#modalonlydovod").modal("show");
+          $("#only_user_id").val($("#select_user").val());
+          $("#only_date").val(info.dateStr);
+          $("#only_status").val(info.draggedEl.dataset.status);
+        }
+      },
+      eventClick: function(info){
+        /* Po kliknutý na event otvorí modal a vloži do neho na sledujúce hodnoty */
+        if(info.event._def.extendedProps.status == 'Free'){
+          $("#info-name_all").val(info.event._def.title);
+          $("#info-date_all").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#remove_event_date_item").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#info-status_all").val(info.event._def.extendedProps.status);
+          $("#remove_event_id_item").val(info.event._def.publicId);
+          $("#modalinfobox_all").modal("show");
+        }else if(info.event._def.extendedProps.status == 'Busy'){
+          $("#info-name_all").val(info.event._def.title);
+          $("#info-dovod_all").val(info.event._def.extendedProps.description);
+          $("#info-date_all").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#remove_event_date_item").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#info-status_all").val(info.event._def.extendedProps.status);
+          $("#remove_event_id_item").val(info.event._def.publicId);
+          $("#modalinfobox_all").modal("show");
+        }else if(info.event._def.extendedProps.status == 'Maybe'){
+          $("#info-name_all").val(info.event._def.title);
+          $("#info-dovod_all").val(info.event._def.extendedProps.description);
+          $("#info-date_all").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#remove_event_date_item").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#info-event_odkedy1_all").val(info.event._def.extendedProps.event_odkedy1);
+          $("#info-event_dokedy1_all").val(info.event._def.extendedProps.event_dokedy1);
+          $("#info-event_odkedy2_all").val(info.event._def.extendedProps.event_odkedy2);
+          $("#info-event_dokedy2_all").val(info.event._def.extendedProps.event_dokedy2);
+          $("#info-status_all").val(info.event._def.extendedProps.status);
+          $("#remove_event_id_item").val(info.event._def.publicId);
+          $("#modalinfobox_all").modal("show");
+        }else if(info.event._def.extendedProps.status == 'Dontknowyet'){
+          $("#info-name_all").val(info.event._def.title);
+          $("#info-dovod_all").val(info.event._def.extendedProps.description);
+          $("#info-date_all").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#remove_event_date_item").val(moment(info.event._instance.range.start).format("DD.MM.YYYY"));
+          $("#info-status_all").val(info.event._def.extendedProps.status);
+          $("#remove_event_id_item").val(info.event._def.publicId);
+          $("#modalinfobox_all").modal("show");
+        };
+      },
+      eventSources: [{
+          url: 'app/api.php',
+          method: 'GET',
+          extraParams: {
+            users: [<?php if(isset($_POST['select_user_filter'])){echo ''.implode(',', $_POST['select_user_filter']).'';}else{echo 0;} ?>],
+            api: '1',
+            api_type: 'get_calendar_data_admin',
+          }
+      }]
+    });
+    calendar.render();
+  });
+</script>
+
+
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper">
@@ -193,6 +323,9 @@ $p="";
             <!-- Data list view end -->
 
         </div>
+    </div>
+ <div class="col">
+        <div id='calendar'></div>
     </div>
 </div>
 <!-- END: Content-->
