@@ -19,7 +19,7 @@ $status = $_POST['status'];
 $myinfo=$project_id."info";echo"<br>";
 $myvypocet=$project_id."vypocet";echo"<br>";
 
- $sql = "INSERT INTO $myproject  SET
+ echo $sql = "INSERT INTO $myproject  SET
 project_name='$project_name',
 production='$production',
 kind='$kind',
